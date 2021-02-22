@@ -1,7 +1,7 @@
 import flask
 import constants
 import mysql.connector
-from flask import jsonify, request
+from flask import jsonify, request, send_from_directory
 from mysql.connector import Error
 
 app = flask.Flask(__name__)
@@ -1322,18 +1322,229 @@ def get_returns():
 
 @app.route("/stats/nfl/scoring", methods = ["GET"])
 def get_scoring():
-    return
+    query = constants.SELECT_SCORING
+    vals = []
+    if "name" in request.args:
+        query += "name LIKE %s AND "
+        vals.append("%" + request.args["name"] + "%")
 
+    # if '!' is in the position argument, lookup all positions except the passed argument(s)
+    if "pos" in request.args:
+        if any (sym in request.args["pos"] for sym in ("!")):
+            query += """position != %s AND """
+            vals.append(request.args["pos"][1:].upper())
 
+        else:
+            query += """position = %s AND """
+            vals.append(request.args["pos"])
 
+    if "team" in request.args:
+        query += "team LIKE %s AND "
+        vals.append("%" + request.args["team"] + "%")
 
+    if "rushtd" in request.args:
+        if any (sym in request.args["rushtd"] for sym in constants.syms):
+            query += "rushingTD " 
+            query += request.args["rushtd"][:1] 
+            query += " %s AND "
+            vals.append(request.args["rushtd"][1:])
 
+        else:
+            query += "rushingTD = %s"
+            vals.append(request.args["rushtd"])
 
+    if "rectd" in request.args:
+        if any (sym in request.args["rectd"] for sym in constants.syms):
+            query += "receivingTD "
+            query += request.args["rectd"][:1] + " %s AND "
+            vals.append(request.args["rectd"][1:])
 
+        else:
+            query += "receivingTD = %s"
+            vals.append(request.args["rectd"])
 
+    if "prettd" in request.args:
+        if any (sym in request.args["prettd"] for sym in constants.syms):
+            query += "punt_returnTD " 
+            query += request.args["prettd"][:1] 
+            query += " %s AND "
+            vals.append(request.args["prettd"][1:])
 
+        else:
+            query += "punt_returnTD = %s"
+            vals.append(request.args["prettd"])
 
+    if "korettd" in request.args:
+        if any (sym in request.args["korettd"] for sym in constants.syms):
+            query += "kick_returnTD " 
+            query += request.args["korettd"][:1] 
+            query += " %s AND "
+            vals.append(request.args["korettd"][1:])
 
+        else:
+            query += "kick_returnTD = %s"
+            vals.append(request.args["korettd"])
+
+    if "fmbltd" in request.args:
+        if any (sym in request.args["fmbltd"] for sym in constants.syms):
+            query += "fumbleTD " 
+            query += request.args["fmbltd"][:1] 
+            query += " %s AND "
+            vals.append(request.args["fmbltd"][1:])
+
+        else:
+            query += "fumbleTD = %s"
+            vals.append(request.args["fmbltd"])
+
+    if "inttd" in request.args:
+        if any (sym in request.args["inttd"] for sym in constants.syms):
+            query += "interceptionTD " 
+            query += request.args["inttd"][:1] 
+            query += " %s AND "
+            vals.append(request.args["inttd"][1:])
+
+        else:
+            query += "interceptionTD = %s"
+            vals.append(request.args["inttd"])
+
+    if "othertd" in request.args:
+        if any (sym in request.args["othertd"] for sym in constants.syms):
+            query += "otherTD " 
+            query += request.args["othertd"][:1] 
+            query += " %s AND "
+            vals.append(request.args["othertd"][1:])
+
+        else:
+            query += "otherTD = %s"
+            vals.append(request.args["othertd"])
+
+    if "alltd" in request.args:
+        if any (sym in request.args["alltd"] for sym in constants.syms):
+            query += "allTD " 
+            query += request.args["alltd"][:1] 
+            query += " %s AND "
+            vals.append(request.args["alltd"][1:])
+
+        else:
+            query += "allTD = %s"
+            vals.append(request.args["alltd"])
+
+    if "2pa" in request.args:
+        if any (sym in request.args["2pa"] for sym in constants.syms):
+            query += "twoPA " 
+            query += request.args["2pa"][:1] 
+            query += " %s AND "
+            vals.append(request.args["2pa"][1:])
+
+        else:
+            query += "twoPA = %s"
+            vals.append(request.args["2pa"])
+
+    if "2pm" in request.args:
+        if any (sym in request.args["2pm"] for sym in constants.syms):
+            query += "twoPM " 
+            query += request.args["2pm"][:1] 
+            query += " %s AND "
+            vals.append(request.args["2pm"][1:])
+
+        else:
+            query += "twoPM = %s"
+            vals.append(request.args["2pm"])
+
+    if "xpa" in request.args:
+        if any (sym in request.args["xpa"] for sym in constants.syms):
+            query += "XPA " 
+            query += request.args["xpa"][:1] 
+            query += " %s AND "
+            vals.append(request.args["xpa"][1:])
+
+        else:
+            query += "XPA = %s"
+            vals.append(request.args["xpa"])
+
+    if "xpm" in request.args:
+        if any (sym in request.args["xpm"] for sym in constants.syms):
+            query += "XPM " 
+            query += request.args["xpm"][:1] 
+            query += " %s AND "
+            vals.append(request.args["xpm"][1:])
+
+        else:
+            query += "XPM = %s"
+            vals.append(request.args["xpm"])
+
+    if "fga" in request.args:
+        if any (sym in request.args["fga"] for sym in constants.syms):
+            query += "FGA " 
+            query += request.args["fga"][:1] 
+            query += " %s AND "
+            vals.append(request.args["fga"][1:])
+
+        else:
+            query += "FGA = %s"
+            vals.append(request.args["fga"])
+
+    if "fgm" in request.args:
+        if any (sym in request.args["fgm"] for sym in constants.syms):
+            query += "FGzzm " 
+            query += request.args["fgm"][:1] 
+            query += " %s AND "
+            vals.append(request.args["fgm"][1:])
+
+        else:
+            query += "FGM = %s"
+            vals.append(request.args["fgm"])
+
+    if "sfty" in request.args:
+        if any (sym in request.args["sfty"] for sym in constants.syms):
+            query += "Sfty " 
+            query += request.args["sfty"][:1] 
+            query += " %s AND "
+            vals.append(request.args["sfty"][1:])
+
+        else:
+            query += "Sfty = %s"
+            vals.append(request.args["sfty"])
+
+    if "pts" in request.args:
+        if any (sym in request.args["pts"] for sym in constants.syms):
+            query += "points " 
+            query += request.args["pts"][:1] 
+            query += " %s AND "
+            vals.append(request.args["pts"][1:])
+
+        else:
+            query += "points = %s"
+            vals.append(request.args["pts"])
+
+    if "ppg" in request.args:
+        if any (sym in request.args["ppg"] for sym in constants.syms):
+            query += "points_per_game " 
+            query += request.args["ppg"][:1] 
+            query += " %s AND "
+            vals.append(request.args["ppg"][1:])
+
+        else:
+            query += "points_per_game = %s"
+            vals.append(request.args["ppg"])
+
+    query = query[:-4]
+
+    if "orderby" in request.args:
+        query += "ORDER BY "
+        col = constants.SCORING_COLUMNS.get(request.args["orderby"])
+        query += col + " DESC"
+
+    if "order" in request.args and request.args["order"] == "asc":
+        query = query[:-4]
+
+    query += ";"
+    print(query)
+    print(vals)
+    cursor.execute(query, vals)
+    results = cursor.fetchall()
+
+    return jsonify(results)
 
 
 

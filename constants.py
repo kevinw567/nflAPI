@@ -8,7 +8,7 @@ SCRIMMAGE_COLUMNS = { "tch": "touches", "ypt": "yards_per_touch", "yds": "scrimm
 RECEIVING_COLUMNS = { "tgt": "targets", "rec": "receptions", "ctch%": "catch_percent", "yds": "yards", "ypc": "yards_per_reception", "td": "td", "fd": "first_downs", "lng": "long_reception", "ypt": "yards_per_target", "rpg": "receptions_per_game", "ypg": "yards_per_game", "fmbl": "fumbles" }
 KICKING_COLUMNS = { "fga19": "FGA19", "fgm19": "FGM19", "fga29": "FGM29", "fga39": "FGM39", "fga49": "FGM49", "fga50": "FGA50", "fgm50": "FGM50", "fga" : "FGA", "fgm": "FGM", "fglng": "FGLong", "fg%": "FGPercent", "xpa": "XPA", "xpm": "XPM", "xp%": "XPPercent", "ko" : "KO", "koyds": "KOYds", "tb": "TB", "tb%": "TBPercent", "koavg": "KOAvg", "pnts": "Pnts", "pntavg": "PntAvg", "pntlng": "PntLong", "blck": "Blocked", "ypp": "YdsPerPnt" }
 RETURNS_COLUMNS = { "prets": "punt_returns", "pretyds": "punt_return_yards", "prettds": "punt_return_tds", "pretlng": "long_punt_return", "yppr": "yards_per_punt_return", "koret": "kickoff_returns", "koretyds": "kickoff_return_yards", "korettds": "kickoff_return_tds", "koretlng": "long_kickoff_return", "ypkoret": "yards_per_kickoff_return", "apyds": "all_purpose_yards" }
-
+SCORING_COLUMNS = { "rushtd": "rushingTD", "rectd": "receivingTD", "prettd": "punt_returnTD", "koretd": "kick_returnTD", "fmbltd": "fumbleTD", "inttd": "interceptionTD", "othertd": "otherTD", "alltd": "allTD", "2pm": "twoPM", "2pa": "twoPA", "xpa": "XPA", "xpm": "XPM", "fga": "FGA", "fgm": "FGM", "sfty": "Sfty", "pts": "points", "ppg": "points_per_game" }
 # SELECT QUERIES
 SELECT_ID_BY_NAME = "SELECT id FROM player_info WHERE name LIKE %s"
 SELECT_PASSING = "SELECT * from player_info as p JOIN passing2020 as pa on p.id = pa.id WHERE "
@@ -18,6 +18,7 @@ SELECT_DEFENSE = "SELECT * FROM player_info as p JOIN defense2020 as d on p.id =
 SELECT_SCRIMMAGE = "SELECT * FROM player_info as p JOIN scrimmage2020 as s on p.id = s.id WHERE "
 SELECT_KICKING = "SELECT * FROM player_info as p JOIN kicking2020 as k on p.id = k.id WHERE "
 SELECT_RETURNS = "SELECT * FROM player_info as p JOIN returns2020 as r on p.id = r.id WHERE "
+SELECT_SCORING = "SELECT * FROM player_info as p JOIN scoring2020 as s on p.id = s.id WHERE "
 
 # INSERT QUERIES
 INSERT_PLAYER_INFO = "INSERT INTO player_info (name, position, team) VALUES (%s, %s, %s)"
