@@ -1,8 +1,8 @@
 syms = [">", "<"]
 
 # dictionaries mapping url categories to the corresponding table columns
-PASSING_COLUMNS = { "cmp": "completions", "att": "pass_attempts", "cmpp": "completion_percent", "yds": "yards", "td": "TD", "int": "interceptions", "ypg": "yards_per_game", "ypc": "yards_per_comp", "ypa": "yards_per_attempt", "lng": "longest_pass", "rtng": "passer_rating", "qbr": "qbr" }
-RUSHING_COLUMNS = { "att": "attempts", "yds": "yards", "td": "touchdowns", "fd": "first_downs", "lng": "long_rush", "ypa": "yards_per_attempt", "ypg": "yards_per_game", "fmb": "fumbles" }
+PASSING_COLUMNS = { "cmp": "completions", "att": "pass_attempts", "cmp%": "completion_percent", "yds": "yards", "td": "TD", "int": "interceptions", "ypg": "yards_per_game", "ypc": "yards_per_comp", "ypa": "yards_per_attempt", "lng": "longest_pass", "rtng": "passer_rating", "qbr": "qbr" }
+RUSHING_COLUMNS = { "att": "attempts", "yds": "yards", "td": "touchdowns", "fd": "first_downs", "lng": "long_rush", "ypa": "yards_per_attempt", "ypg": "yards_per_game", "fmbl": "fumbles" }
 DEFENSE_COLUMNS = { "int": "interceptions", "intyds": "interception_yards", "hits": "qbhits" }
 SCRIMMAGE_COLUMNS = { "tch": "touches", "ypt": "yards_per_touch", "yds": "scrimmage_yards" }
 RECEIVING_COLUMNS = { "tgt": "targets", "rec": "receptions", "ctch%": "catch_percent", "yds": "yards", "ypc": "yards_per_reception", "td": "td", "fd": "first_downs", "lng": "long_reception", "ypt": "yards_per_target", "rpg": "receptions_per_game", "ypg": "yards_per_game", "fmbl": "fumbles" }

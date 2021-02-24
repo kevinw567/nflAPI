@@ -14,7 +14,7 @@ db = mysql.connector.connect(
     database = "nflStats"
 )
 
-cursor = db.cursor()
+cursor = db.cursor(dictionary = True)
 
 if db:
     print("Connected to database")
@@ -101,16 +101,16 @@ def get_passing():
             query += "pass_attempts = %s AND "
             vals.append(request.args["att"])
 
-    if "cmpp" in request.args:
-        if any (sym in request.args["cmpp"] for sym in constants.syms):
+    if "cmp%" in request.args:
+        if any (sym in request.args["cmp%"] for sym in constants.syms):
             query += """completion_percent """
-            query += request.args["cmpp"][:1]
+            query += request.args["cmp%"][:1]
             query += """ %s AND """
-            vals.append(request.args["cmpp"][1:])
+            vals.append(request.args["cmp%"][1:])
         
         else:
             query += "completion_percent = %s AND "
-            vals.append(request.args["cmpp"])
+            vals.append(request.args["cmp%"])
     
     if "yds" in request.args:
         if any (sym in request.args["yds"] for sym in constants.syms):
@@ -126,9 +126,9 @@ def get_passing():
     if "td" in request.args:
         if any (sym in request.args["td"] for sym in constants.syms):
             query += """TD """
-            query += request.args["ts"][:1]
+            query += request.args["td"][:1]
             query += """ %s AND """
-            vals.append(request.args["ts"][1:])
+            vals.append(request.args["td"][1:])
         
         else:
             query += "TD = %s AND "
@@ -158,13 +158,13 @@ def get_passing():
 
     if "ypc" in request.args:
         if any (sym in request.args["ypc"] for sym in constants.syms):
-            query += """yards_per_completion """
+            query += """yards_per_comp """
             query += request.args["ypc"][:1]
             query += """ %s AND """
             vals.append(request.args["ypc"][1:])
         
         else:
-            query += "yards_per_completion = %s AND "
+            query += "yards_per_comp = %s AND "
             vals.append(request.args["ypc"])
 
     if "ypa" in request.args:
@@ -216,17 +216,17 @@ def get_passing():
     if "orderby" in request.args:
         query += "ORDER BY "
         col = constants.PASSING_COLUMNS.get(request.args["orderby"])
-        query += col
+        query += col + " DESC"
 
-    if "order" in request.args and request.args["order"] == "desc":
-        query += " DESC"
+    if "order" in request.args and request.args["order"] == "asc":
+        query = query[:-4]
 
     query += ";"
     print(query)
     print(vals)
     cursor.execute(query, vals)
     results = cursor.fetchall()
-
+    
     return jsonify(results)
 
 @app.route("/stats/nfl/rushing", methods = ["GET"])
@@ -252,7 +252,7 @@ def get_rushing():
 
     if "att" in request.args:
         if any (sym in request.args["att"] for sym in constants.syms):
-            query += """pass_attempts """
+            query += """attempts """
             query += request.args["att"][:1]
             query += """ %s AND """
             vals.append(request.args["att"][1:])
@@ -274,19 +274,19 @@ def get_rushing():
 
     if "td" in request.args:
         if any (sym in request.args["td"] for sym in constants.syms):
-            query += """TD """
-            query += request.args["ts"][:1]
+            query += """touchdowns """
+            query += request.args["td"][:1]
             query += """ %s AND """
-            vals.append(request.args["ts"][1:])
+            vals.append(request.args["td"][1:])
         
         else:
-            query += "TD = %s AND "
+            query += "touchdown = %s AND "
             vals.append(request.args["td"])
 
     if "fd" in request.args:
         if any (sym in request.args["fd"] for sym in constants.syms):
             query += """first_downs """
-            query += request.args["int"][:1]
+            query += request.args["fd"][:1]
             query += """ %s AND """
             vals.append(request.args["fd"][1:])
         
@@ -344,17 +344,17 @@ def get_rushing():
     if "orderby" in request.args:
         query += "ORDER BY "
         col = constants.RUSHING_COLUMNS.get(request.args["orderby"])
-        query += col + " DESC "
+        query += col + " DESC"
 
-    if "order" in request.args and request.args["order"] == "desc":
-        query += " DESC"
+    if "order" in request.args and request.args["order"] == "asc":
+        query = query[:-4]
 
     query += ";"
     print(query)
     print(vals)
     cursor.execute(query, vals)
     results = cursor.fetchall()
-
+    
     return jsonify(results)
 
 @app.route("/stats/nfl/receiving", methods = ["GET"])
@@ -516,11 +516,10 @@ def get_receiving():
     if "orderby" in request.args:
         query += "ORDER BY "
         col = constants.RECEIVING_COLUMNS.get(request.args["orderby"])
-        query += col + " DESC "
-        vals.append(col)
+        query += col + " DESC"
 
-    if "order" in request.args and request.args["order"] == "desc":
-        query += " DESC"
+    if "order" in request.args and request.args["order"] == "asc":
+        query = query[:-4]
 
     query += ";"
     print(query)
@@ -733,11 +732,10 @@ def get_defense():
     if "orderby" in request.args:
         query += "ORDER BY "
         col = constants.DEFENSE_COLUMNS.get(request.args["orderby"])
-        query += col + " DESC "
-        vals.append(col)
+        query += col + " DESC"
 
-    if "order" in request.args and request.args["order"] == "desc":
-        query += " DESC"
+    if "order" in request.args and request.args["order"] == "asc":
+        query = query[:-4]
 
     query += ";"
     print(query)
@@ -809,10 +807,10 @@ def get_scrimmage():
     if "orderby" in request.args:
         query += "ORDER BY "
         col = constants.SCRIMMAGE_COLUMNS.get(request.args["orderby"])
-        query += col
+        query += col + " DESC"
 
-    if "order" in request.args and request.args["order"] == "desc":
-        query += " DESC"
+    if "order" in request.args and request.args["order"] == "asc":
+        query = query[:-4]
 
     query += ";"
     print(query)
@@ -1146,10 +1144,10 @@ def get_kicking():
     if "orderby" in request.args:
         query += "ORDER BY "
         col = constants.KICKING_COLUMNS.get(request.args["orderby"])
-        query += col
+        query += col + " DESC"
 
-    if "order" in request.args and request.args["order"] == "desc":
-        query += " DESC"
+    if "order" in request.args and request.args["order"] == "asc":
+        query = query[:-4]
 
     query += ";"
     print(query)
@@ -1546,6 +1544,12 @@ def get_scoring():
 
     return jsonify(results)
 
+@app.route("/test", methods = ["GET"])
+def test():
+    q = 'select json_arrayagg(json_object("id", p.id, "name", name, "team", team)) from player_info as p;'
+    results = cursor.execute(q)
+    print(results)
 
+    return results
 
 app.run()
