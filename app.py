@@ -1,7 +1,7 @@
 import flask
 import constants
 import mysql.connector
-from flask import jsonify, request, send_from_directory
+from flask import jsonify, request
 from mysql.connector import Error
 
 app = flask.Flask(__name__)
@@ -29,20 +29,16 @@ def home():
 
 @app.route("/stats/nfl/players/all", methods = ["GET"])
 def get_all_players():
-    cursor.execute("SELECT * FROM player_info")
+    cursor.execute("SELECT name, position, team FROM player_info")
     results = cursor.fetchall()
     
     return jsonify(results)
 
 @app.route("/stats/nfl/players", methods = ["GET"])
 def get_players():
-    query = "SELECT * from player_info WHERE "
+    query = "SELECT name, position, team from player_info WHERE "
     vals = []
     # formulate query with endpoint arguments
-    if "id" in request.args:
-        query += "id = %s AND"
-        vals.append(request.args["id"])
-
     if "name" in request.args:
         query += "name = %s AND"
         vals.append(request.args["name"])
@@ -53,7 +49,7 @@ def get_players():
 
     if "team" in request.args:
         query += "team = %s AND"
-        vals.append(request.args["team"])
+        vals.append(request.args["team"].upper())
 
     # remove the last 'AND' and add terminating semicolon
     query = query[:-4] + ";"
@@ -1187,7 +1183,7 @@ def get_returns():
             vals.append(request.args["prets"][1:])
 
         else:
-            query += "punt_returns= %s"
+            query += "punt_returns= %s "
             vals.append(request.args["pntrets"])
 
     if "pretyds" in request.args:
@@ -1198,7 +1194,7 @@ def get_returns():
             vals.append(request.args["pretyds"][1:])
 
         else:
-            query += "punt_return_yards= %s"
+            query += "punt_return_yards= %s "
             vals.append(request.args["pretyds"])
 
     if "prettds" in request.args:
@@ -1209,7 +1205,7 @@ def get_returns():
             vals.append(request.args["prettds"][1:])
 
         else:
-            query += "punt_return_tds = %s"
+            query += "punt_return_tds = %s "
             vals.append(request.args["prettds"])
 
     if "pretlng" in request.args:
@@ -1220,8 +1216,8 @@ def get_returns():
             vals.append(request.args["pretyds"][1:])
 
         else:
-            query += "punt_returns= %s"
-            vals.append(request.args["pretyds"])
+            query += "punt_returns= %s AND"
+            vals.append(request.args["pretyds "])
 
     if "yppr" in request.args:
         if any (sym in request.args["yppr"] for sym in constants.syms):
@@ -1231,7 +1227,7 @@ def get_returns():
             vals.append(request.args["yppr"][1:])
 
         else:
-            query += "yards_per_punt_return = %s"
+            query += "yards_per_punt_return = %s AND"
             vals.append(request.args["yppr"])
 
     if "koret" in request.args:
@@ -1242,7 +1238,7 @@ def get_returns():
             vals.append(request.args["koret"][1:])
 
         else:
-            query += "kickoff_returns = %s"
+            query += "kickoff_returns = %s AND"
             vals.append(request.args["koret"])
 
     if "koretyds" in request.args:
@@ -1253,19 +1249,19 @@ def get_returns():
             vals.append(request.args["koretyds"][1:])
 
         else:
-            query += "kickoff_return_yards = %s"
+            query += "kickoff_return_yards = %s AND"
             vals.append(request.args["koretyds"])
 
     if "korettds" in request.args:
-        if any (sym in request.args["kotd"] for sym in constants.syms):
+        if any (sym in request.args["korettds"] for sym in constants.syms):
             query += "kickoff_return_tds " 
-            query += request.args["kotd"][:1] 
+            query += request.args["korettds"][:1] 
             query += " %s AND "
-            vals.append(request.args["kotd"][1:])
+            vals.append(request.args["korettds"][1:])
 
         else:
-            query += "kickoff_return_tds = %s"
-            vals.append(request.args["kotd"])
+            query += "kickoff_return_tds = %s AND"
+            vals.append(request.args["korettds"])
 
     if "koretlng" in request.args:
         if any (sym in request.args["koretlng"] for sym in constants.syms):
@@ -1275,7 +1271,7 @@ def get_returns():
             vals.append(request.args["koretlng"][1:])
 
         else:
-            query += "long_kickoff_return = %s"
+            query += "long_kickoff_return = %s AND"
             vals.append(request.args["koretlng"])
 
     if "ypkoret" in request.args:
@@ -1286,7 +1282,7 @@ def get_returns():
             vals.append(request.args["ypkoret"][1:])
 
         else:
-            query += "yards_per_kickoff_return = %s"
+            query += "yards_per_kickoff_return = %s AND"
             vals.append(request.args["ypkoret"])
 
     if "apyds" in request.args:
@@ -1297,7 +1293,7 @@ def get_returns():
             vals.append(request.args["apyds"][1:])
 
         else:
-            query += "all_purpose_yards = %s"
+            query += "all_purpose_yards = %s AND"
             vals.append(request.args["apyds"])
 
     query = query[:-4]
@@ -1348,7 +1344,7 @@ def get_scoring():
             vals.append(request.args["rushtd"][1:])
 
         else:
-            query += "rushingTD = %s"
+            query += "rushingTD = %s AND"
             vals.append(request.args["rushtd"])
 
     if "rectd" in request.args:
@@ -1358,7 +1354,7 @@ def get_scoring():
             vals.append(request.args["rectd"][1:])
 
         else:
-            query += "receivingTD = %s"
+            query += "receivingTD = %s AND"
             vals.append(request.args["rectd"])
 
     if "prettd" in request.args:
@@ -1369,7 +1365,7 @@ def get_scoring():
             vals.append(request.args["prettd"][1:])
 
         else:
-            query += "punt_returnTD = %s"
+            query += "punt_returnTD = %s AND"
             vals.append(request.args["prettd"])
 
     if "korettd" in request.args:
@@ -1380,7 +1376,7 @@ def get_scoring():
             vals.append(request.args["korettd"][1:])
 
         else:
-            query += "kick_returnTD = %s"
+            query += "kick_returnTD = %s AND"
             vals.append(request.args["korettd"])
 
     if "fmbltd" in request.args:
@@ -1391,7 +1387,7 @@ def get_scoring():
             vals.append(request.args["fmbltd"][1:])
 
         else:
-            query += "fumbleTD = %s"
+            query += "fumbleTD = %s AND"
             vals.append(request.args["fmbltd"])
 
     if "inttd" in request.args:
@@ -1402,7 +1398,7 @@ def get_scoring():
             vals.append(request.args["inttd"][1:])
 
         else:
-            query += "interceptionTD = %s"
+            query += "interceptionTD = %s AND"
             vals.append(request.args["inttd"])
 
     if "othertd" in request.args:
@@ -1413,7 +1409,7 @@ def get_scoring():
             vals.append(request.args["othertd"][1:])
 
         else:
-            query += "otherTD = %s"
+            query += "otherTD = %s AND"
             vals.append(request.args["othertd"])
 
     if "alltd" in request.args:
@@ -1424,7 +1420,7 @@ def get_scoring():
             vals.append(request.args["alltd"][1:])
 
         else:
-            query += "allTD = %s"
+            query += "allTD = %s AND"
             vals.append(request.args["alltd"])
 
     if "2pa" in request.args:
@@ -1435,7 +1431,7 @@ def get_scoring():
             vals.append(request.args["2pa"][1:])
 
         else:
-            query += "twoPA = %s"
+            query += "twoPA = %s AND"
             vals.append(request.args["2pa"])
 
     if "2pm" in request.args:
@@ -1446,7 +1442,7 @@ def get_scoring():
             vals.append(request.args["2pm"][1:])
 
         else:
-            query += "twoPM = %s"
+            query += "twoPM = %s AND"
             vals.append(request.args["2pm"])
 
     if "xpa" in request.args:
@@ -1457,7 +1453,7 @@ def get_scoring():
             vals.append(request.args["xpa"][1:])
 
         else:
-            query += "XPA = %s"
+            query += "XPA = %s AND"
             vals.append(request.args["xpa"])
 
     if "xpm" in request.args:
@@ -1468,7 +1464,7 @@ def get_scoring():
             vals.append(request.args["xpm"][1:])
 
         else:
-            query += "XPM = %s"
+            query += "XPM = %s AND"
             vals.append(request.args["xpm"])
 
     if "fga" in request.args:
@@ -1479,7 +1475,7 @@ def get_scoring():
             vals.append(request.args["fga"][1:])
 
         else:
-            query += "FGA = %s"
+            query += "FGA = %s AND"
             vals.append(request.args["fga"])
 
     if "fgm" in request.args:
@@ -1490,7 +1486,7 @@ def get_scoring():
             vals.append(request.args["fgm"][1:])
 
         else:
-            query += "FGM = %s"
+            query += "FGM = %s AND"
             vals.append(request.args["fgm"])
 
     if "sfty" in request.args:
@@ -1501,7 +1497,7 @@ def get_scoring():
             vals.append(request.args["sfty"][1:])
 
         else:
-            query += "Sfty = %s"
+            query += "Sfty = %s AND"
             vals.append(request.args["sfty"])
 
     if "pts" in request.args:
@@ -1512,7 +1508,7 @@ def get_scoring():
             vals.append(request.args["pts"][1:])
 
         else:
-            query += "points = %s"
+            query += "points = %s AND"
             vals.append(request.args["pts"])
 
     if "ppg" in request.args:
@@ -1523,7 +1519,7 @@ def get_scoring():
             vals.append(request.args["ppg"][1:])
 
         else:
-            query += "points_per_game = %s"
+            query += "points_per_game = %s AND"
             vals.append(request.args["ppg"])
 
     query = query[:-4]
