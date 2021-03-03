@@ -10,15 +10,16 @@ KICKING_COLUMNS = { "fga19": "FGA19", "fgm19": "FGM19", "fga29": "FGM29", "fga39
 RETURNS_COLUMNS = { "prets": "punt_returns", "pretyds": "punt_return_yards", "prettds": "punt_return_tds", "pretlng": "long_punt_return", "yppr": "yards_per_punt_return", "koret": "kickoff_returns", "koretyds": "kickoff_return_yards", "korettds": "kickoff_return_tds", "koretlng": "long_kickoff_return", "ypkoret": "yards_per_kickoff_return", "apyds": "all_purpose_yards" }
 SCORING_COLUMNS = { "rushtd": "rushingTD", "rectd": "receivingTD", "prettd": "punt_returnTD", "koretd": "kick_returnTD", "fmbltd": "fumbleTD", "inttd": "interceptionTD", "othertd": "otherTD", "alltd": "allTD", "2pm": "twoPM", "2pa": "twoPA", "xpa": "XPA", "xpm": "XPM", "fga": "FGA", "fgm": "FGM", "sfty": "Sfty", "pts": "points", "ppg": "points_per_game" }
 # SELECT QUERIES
+SELECT = "SELECT name, team, position, "
 SELECT_ID_BY_NAME = "SELECT id FROM player_info WHERE name LIKE %s"
-SELECT_PASSING = "SELECT * from player_info as p JOIN passing as pa on p.id = pa.id WHERE "
-SELECT_RUSHING = "SELECT * FROM player_info as p JOIN rushing as r on p.id = r.id WHERE "
-SELECT_RECEIVING = "SELECT * FROM player_info as p JOIN receiving as r on p.id = r.id WHERE "
-SELECT_DEFENSE = "SELECT * FROM player_info as p JOIN defense as d on p.id = d.id WHERE "
-SELECT_SCRIMMAGE = "SELECT * FROM player_info as p JOIN scrimmage as s on p.id = s.id WHERE "
-SELECT_KICKING = "SELECT * FROM player_info as p JOIN kicking as k on p.id = k.id WHERE "
-SELECT_RETURNS = "SELECT * FROM player_info as p JOIN returns as r on p.id = r.id WHERE "
-SELECT_SCORING = "SELECT * FROM player_info as p JOIN scoring as s on p.id = s.id WHERE "
+SELECT_PASSING = " FROM player_info as p JOIN passing as pa on p.id = pa.id WHERE "
+SELECT_RUSHING = " FROM player_info as p JOIN rushing as r on p.id = r.id WHERE "
+SELECT_RECEIVING = " FROM player_info as p JOIN receiving as r on p.id = r.id WHERE "
+SELECT_DEFENSE = " FROM player_info as p JOIN defense as d on p.id = d.id WHERE "
+SELECT_SCRIMMAGE = " FROM player_info as p JOIN scrimmage as s on p.id = s.id WHERE "
+SELECT_KICKING = " FROM player_info as p JOIN kicking as k on p.id = k.id WHERE "
+SELECT_RETURNS = " FROM player_info as p JOIN returns as r on p.id = r.id WHERE "
+SELECT_SCORING = " FROM player_info as p JOIN scoring as s on p.id = s.id WHERE "
 
 # INSERT QUERIES
 INSERT_PLAYER_INFO = "INSERT INTO player_info (name, position, team) VALUES (%s, %s, %s)"
