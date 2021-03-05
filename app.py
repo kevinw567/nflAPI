@@ -8,10 +8,10 @@ app = flask.Flask(__name__)
 app.config["DEBUG"] = True
 
 db = mysql.connector.connect(
-    host = "localhost",
-    user = "kevin",
-    password = "password",
-    database = "nflStats"
+    host = app.config["HOST"],
+    user = app.config["USER"],
+    password = app.config["PASSWORD"],
+    database = app.config["DATABASE"]
 )
 
 cursor = db.cursor(dictionary = True)
