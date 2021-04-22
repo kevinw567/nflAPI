@@ -1,3 +1,4 @@
+DEBUG = False
 HOST = ""
 USER = ""
 PASSWORD = ""
