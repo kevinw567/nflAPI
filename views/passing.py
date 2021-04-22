@@ -5,22 +5,6 @@ from views import db, cursor
 
 passing = Blueprint("passing", __name__, url_prefix = "/stats/nfl/")
 
-# db = mysql.connector.connect(
-#     host = config["HOST"],
-#     user = config["USER"],
-#     password = config["PASSWORD"],
-#     database = config["DATABASE"]
-# )
-
-# cursor = current_app.db.cursor(dictionary = True)
-
-# if current_app.db:
-#     print("Connected to database")
-
-
-# else:
-#     print("Unable to connect to database")
-
 @passing.route("passing", methods = ["GET"])
 def get_passing():
     print("IN PASSING FUNC")
