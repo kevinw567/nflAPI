@@ -1,10 +1,8 @@
 import flask
 from flask import jsonify, request
 import const as constants
-import mysql.connector
 from views import app
 
-# import blueprints
 from views.passing import passing, cursor, db
 from views.rushing import rushing
 from views.receiving import receiving
@@ -38,7 +36,5 @@ def create_app():
 @app.route("/", methods = ["GET"])
 def home():
     return "<h1> NFL Stats API <h1>"
-
-
 
 app.run()

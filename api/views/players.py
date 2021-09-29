@@ -33,8 +33,8 @@ def get_players():
     vals = []
     # formulate query with endpoint arguments
     if "name" in request.args:
-        query += "name = %s AND"
-        vals.append(request.args["name"])
+        query += "name LIKE %s AND"
+        vals.append("%" + request.args["name"] + "%")
 
     if "position" in request.args:
         query += "position = %s AND"
@@ -43,6 +43,10 @@ def get_players():
     if "team" in request.args:
         query += "team = %s AND"
         vals.append(request.args["team"].upper())
+
+    if "year" in request.args:
+        query += "year = %s AND"
+        vals.append(request.args["year"])
 
     # remove the last 'AND' and add terminating semicolon
     query = query[:-4] + ";"

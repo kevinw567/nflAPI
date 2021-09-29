@@ -1,0 +1,59 @@
+.open-sidebar {
+    height: 200%;
+    width: 13%;
+    position: absolute;
+    left: 0;
+    top: 10.2%;
+    background-color: rgb(96, 146, 211);
+    border: 2px solid rgb(96, 146, 211);
+    color: #ddd
+}
+
+.closed-sidebar {
+    width: 5%;
+    background-color: rgb(96, 146, 211);
+    border:rgb(96, 146, 211) 2px solid;
+    color: #ddd;
+    height: 200%;
+    position: absolute;
+    left: 0;
+    top: 10.2%;
+}
+  
+.open-sidebar div {
+    padding: 8px
+}
+  
+.sidebar-title {
+    text-align: center;
+    position: relative;
+    width: 100%
+}
+
+.name-button {
+    font-size: 7px;
+    border-radius: 4px;
+    width: 4px;
+    height: 15px
+}
+
+.collapse-button {
+    padding: 10px 10px;
+    position: relative;
+    left: 70%;
+    bottom: 0%;
+    height: 3%;
+    border: 2px solid rgb(96, 146, 211);
+    background-color: rgb(96, 146, 211);
+    border-radius: 4px;
+  }
+  
+.closed-collapse-button {
+    position: relative;
+    width: 100%;
+    height: 1%;
+    right: 0%;
+    padding-top: 0%;
+    background-color: rgb(96, 146, 211);
+    border:rgb(96, 146, 211) 2px solid
+}
