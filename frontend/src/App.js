@@ -6,8 +6,10 @@ import { Sidebar } from "./sidebar";
 function App() {
   return (
     <React.Fragment>
-      <div className = "header"> NFL Stats </div>
-      <Sidebar/>
+      <div className="header"> NFL Stats </div>
+      <div>
+        <Sidebar/>
+      </div>
       <div>
         <Results/>
       </div>
