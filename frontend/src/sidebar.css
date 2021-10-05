@@ -1,3 +1,10 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css");
+
+.category-label {
+    font-size: 85%;
+    white-space: nowrap;
+}
+
 .open-sidebar {
     height: 200%;
     width: 13%;
@@ -26,22 +33,31 @@
   
 .sidebar-title {
     text-align: center;
-    position: relative;
-    width: 100%
+    position: absolute;
+    right: 0;
+    left: 0;
+    top: 2%;
+    width: 100%;
+    font-size: x-large
 }
 
 .name-button {
-    font-size: 7px;
+    position: absolute;
+    right: 5%;
+    top: 7.8%;
+    font-size: 8px;
     border-radius: 4px;
     width: 4px;
     height: 15px
 }
 
 .collapse-button {
+    cursor: pointer;
     padding: 10px 10px;
-    position: relative;
-    left: 70%;
-    bottom: 0%;
+    position: absolute;
+    /* left: 70%; */
+    right: 0%;
+    /* bottom: 0%; */
     height: 3%;
     border: 2px solid rgb(96, 146, 211);
     background-color: rgb(96, 146, 211);
@@ -49,9 +65,10 @@
   }
   
 .closed-collapse-button {
-    position: relative;
-    width: 100%;
-    height: 1%;
+    cursor: pointer;
+    position: absolute;
+    height: 2%;
+    top: 0;
     right: 0%;
     padding-top: 0%;
     background-color: rgb(96, 146, 211);
